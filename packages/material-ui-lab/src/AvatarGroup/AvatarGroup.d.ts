@@ -15,6 +15,10 @@ export interface AvatarGroupProps
    * Spacing between avatars.
    */
   spacing?: 'small' | 'medium' | number;
+  /**
+   * Group direction.
+   */
+  direction?: 'ltr' | 'rtl';
 }
 
 export type AvatarGroupClassKey = 'root' | 'avatar';

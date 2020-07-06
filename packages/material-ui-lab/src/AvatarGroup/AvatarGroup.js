@@ -19,9 +19,19 @@ export const styles = (theme) => ({
   /* Styles applied to the avatar elements. */
   avatar: {
     border: `2px solid ${theme.palette.background.default}`,
+  },
+  /* Styles applied to the avatar elements when direction is left to right. */
+  ltrAvatar: {
     marginLeft: -8,
     '&:first-child': {
       marginLeft: 0,
+    },
+  },
+  /* Styles applied to the avatar elements when direction is right to left. */
+  rtlAvatar: {
+    marginRight: -8,
+    '&:first-child': {
+      marginRight: 0,
     },
   },
 });
@@ -33,10 +43,10 @@ const AvatarGroup = React.forwardRef(function AvatarGroup(props, ref) {
     className,
     max = 5,
     spacing = 'medium',
+    direction = 'ltr',
     ...other
   } = props;
   const clampedMax = max < 2 ? 2 : max;
-
   const children = React.Children.toArray(childrenProp).filter((child) => {
     if (process.env.NODE_ENV !== 'production') {
       if (isFragment(child)) {
@@ -54,26 +64,40 @@ const AvatarGroup = React.forwardRef(function AvatarGroup(props, ref) {
 
   const extraAvatars = children.length > clampedMax ? children.length - clampedMax + 1 : 0;
 
-  const marginLeft = spacing && SPACINGS[spacing] !== undefined ? SPACINGS[spacing] : -spacing;
+  const margin = spacing && SPACINGS[spacing] !== undefined ? SPACINGS[spacing] : -spacing;
 
   return (
-    <div className={clsx(classes.root, className)} ref={ref} {...other}>
+    <div
+      className={clsx(classes.root, className)}
+      style={{ flexDirection: direction === 'rtl' ? 'row-reverse' : undefined }}
+      ref={ref}
+      {...other}
+    >
       {children.slice(0, children.length - extraAvatars).map((child, index) => {
         return React.cloneElement(child, {
-          className: clsx(child.props.className, classes.avatar),
+          className: clsx(
+            child.props.className,
+            classes.avatar,
+            direction === 'ltr' ? classes.ltrAvatar : classes.rtlAvatar,
+          ),
           style: {
             zIndex: children.length - index,
-            marginLeft: index === 0 ? undefined : marginLeft,
+            marginLeft: direction === 'ltr' && (index === 0 ? undefined : margin),
+            marginRight: direction === 'rtl' && (index === 0 ? undefined : margin),
             ...child.props.style,
           },
         });
       })}
       {extraAvatars ? (
         <Avatar
-          className={classes.avatar}
+          className={clsx(
+            classes.avatar,
+            direction === 'ltr' ? classes.ltrAvatar : classes.rtlAvatar,
+          )}
           style={{
             zIndex: 0,
-            marginLeft,
+            marginLeft: direction === 'ltr' ? margin : undefined,
+            marginRight: direction === 'rtl' ? margin : undefined,
           }}
         >
           +{extraAvatars}
@@ -101,6 +125,10 @@ AvatarGroup.propTypes = {
    * @ignore
    */
   className: PropTypes.string,
+  /**
+   * Group direction.
+   */
+  direction: PropTypes.oneOf(['ltr', 'rtl']),
   /**
    * Max avatars to show before +x.
    */

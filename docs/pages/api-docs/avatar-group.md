@@ -30,6 +30,7 @@ The `MuiAvatarGroup` name can be used for providing [default props](/customizati
 |:-----|:-----|:--------|:------------|
 | <span class="prop-name">children</span> | <span class="prop-type">node</span> |  | The avatars to stack. |
 | <span class="prop-name">classes</span> | <span class="prop-type">object</span> |  | Override or extend the styles applied to the component. See [CSS API](#css) below for more details. |
+| <span class="prop-name">direction</span> | <span class="prop-type">'ltr'<br>&#124;&nbsp;'rtl'</span> | <span class="prop-default">'ltr'</span> | Group direction. |
 | <span class="prop-name">max</span> | <span class="prop-type">number</span> | <span class="prop-default">5</span> | Max avatars to show before +x. |
 | <span class="prop-name">spacing</span> | <span class="prop-type">'medium'<br>&#124;&nbsp;'small'<br>&#124;&nbsp;number</span> | <span class="prop-default">'medium'</span> | Spacing between avatars. |
 
@@ -43,6 +44,8 @@ Any other props supplied will be provided to the root element (native element).
 |:-----|:-------------|:------------|
 | <span class="prop-name">root</span> | <span class="prop-name">.MuiAvatarGroup-root</span> | Styles applied to the root element.
 | <span class="prop-name">avatar</span> | <span class="prop-name">.MuiAvatarGroup-avatar</span> | Styles applied to the avatar elements.
+| <span class="prop-name">ltrAvatar</span> | <span class="prop-name">.MuiAvatarGroup-ltrAvatar</span> | Styles applied to the avatar elements when direction is left to right.
+| <span class="prop-name">rtlAvatar</span> | <span class="prop-name">.MuiAvatarGroup-rtlAvatar</span> | Styles applied to the avatar elements when direction is right to left.
 
 You can override the style of the component thanks to one of these customization points:
 
